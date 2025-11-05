@@ -1,0 +1,227 @@
+### Task Manager API with OAuth - REST Client Tests
+
+### Variables
+@baseUrl_local = http://localhost:3000
+@baseUrl_render = https://task-manager-oauth-week07.onrender.com
+@contentType = application/json
+
+### test local for development
+@baseUrl = {{baseUrl_local}}
+
+### test production on Render
+# @baseUrl = {{baseUrl_render}}
+
+###############################################
+### ROOT ENDPOINT
+###############################################
+
+### Get API Info
+GET {{baseUrl}}/
+Content-Type: {{contentType}}
+
+###############################################
+### AUTHENTICATION ENDPOINTS
+###############################################
+
+### Check authentication status
+GET {{baseUrl}}/auth/status
+Content-Type: {{contentType}}
+
+### Get user profile (requires authentication)
+GET {{baseUrl}}/auth/profile
+Content-Type: {{contentType}}
+
+### Access dashboard (requires authentication)
+GET {{baseUrl}}/dashboard
+Content-Type: {{contentType}}
+
+### Logout
+GET {{baseUrl}}/auth/logout
+Content-Type: {{contentType}}
+
+### Note: OAuth login must be done via browser
+### Visit: {{baseUrl}}/auth/google
+### After logging in, you'll have a session cookie for the requests below
+
+###############################################
+### GET REQUESTS (Require Authentication)
+###############################################
+
+### Get all tasks for authenticated user
+GET {{baseUrl}}/api/tasks
+Content-Type: {{contentType}}
+
+### Get task by ID (replace with valid ID from your account)
+GET {{baseUrl}}/api/tasks/673a16a0ac43a55c29b4a7a8
+Content-Type: {{contentType}}
+
+### Test GET with invalid ID format
+GET {{baseUrl}}/api/tasks/invalid-id
+Content-Type: {{contentType}}
+
+### Test GET without authentication (should return 401)
+# Comment out your session cookie and try this
+
+###############################################
+### POST REQUESTS (Require Authentication)
+###############################################
+
+### Create new task
+POST {{baseUrl}}/api/tasks
+Content-Type: {{contentType}}
+
+{
+  "title": "Complete OAuth assignment",
+  "description": "Finish the task manager API with OAuth authentication",
+  "status": "pending",
+  "dueDate": "2025-11-15"
+}
+
+### Create another task
+POST {{baseUrl}}/api/tasks
+Content-Type: {{contentType}}
+
+{
+  "title": "Study for exam",
+  "description": "Review all course materials",
+  "status": "in-progress",
+  "dueDate": "2025-11-20"
+}
+
+### Create task with completed status
+POST {{baseUrl}}/api/tasks
+Content-Type: {{contentType}}
+
+{
+  "title": "Setup OAuth",
+  "description": "Configure Google OAuth for the application",
+  "status": "completed",
+  "dueDate": "2025-11-05"
+}
+
+### Test POST with missing required fields
+POST {{baseUrl}}/api/tasks
+Content-Type: {{contentType}}
+
+{
+  "title": "Incomplete task"
+}
+
+### Test POST with invalid status
+POST {{baseUrl}}/api/tasks
+Content-Type: {{contentType}}
+
+{
+  "title": "Invalid status task",
+  "description": "Testing invalid status",
+  "status": "invalid-status",
+  "dueDate": "2025-11-15"
+}
+
+### Test POST with title too long
+POST {{baseUrl}}/api/tasks
+Content-Type: {{contentType}}
+
+{
+  "title": "This is a very long title that exceeds the maximum allowed length of one hundred characters for task titles",
+  "description": "Testing validation",
+  "dueDate": "2025-11-15"
+}
+
+###############################################
+### PUT REQUESTS (Require Authentication)
+###############################################
+
+### Update task status (replace with valid ID)
+PUT {{baseUrl}}/api/tasks/673a16a0ac43a55c29b4a7a8
+Content-Type: {{contentType}}
+
+{
+  "status": "completed"
+}
+
+### Update task completely (replace with valid ID)
+PUT {{baseUrl}}/api/tasks/673a16a0ac43a55c29b4a7a8
+Content-Type: {{contentType}}
+
+{
+  "title": "Complete OAuth assignment - UPDATED",
+  "description": "Finish the task manager API with OAuth authentication and documentation",
+  "status": "in-progress",
+  "dueDate": "2025-11-16"
+}
+
+### Test PUT with invalid ID format
+PUT {{baseUrl}}/api/tasks/invalid-id
+Content-Type: {{contentType}}
+
+{
+  "status": "completed"
+}
+
+### Test PUT with invalid status
+PUT {{baseUrl}}/api/tasks/673a16a0ac43a55c29b4a7a8
+Content-Type: {{contentType}}
+
+{
+  "status": "wrong-status"
+}
+
+### Test PUT with title too long
+PUT {{baseUrl}}/api/tasks/673a16a0ac43a55c29b4a7a8
+Content-Type: {{contentType}}
+
+{
+  "title": "This is a very long title that exceeds the maximum allowed length of one hundred characters for task titles"
+}
+
+###############################################
+### DELETE REQUESTS (Require Authentication)
+###############################################
+
+### Delete task (replace with valid ID)
+DELETE {{baseUrl}}/api/tasks/673a16a0ac43a55c29b4a7a8
+Content-Type: {{contentType}}
+
+### Test DELETE with invalid ID format
+DELETE {{baseUrl}}/api/tasks/invalid-id
+Content-Type: {{contentType}}
+
+### Test DELETE with non-existent ID
+DELETE {{baseUrl}}/api/tasks/507f1f77bcf86cd799439099
+Content-Type: {{contentType}}
+
+###############################################
+### TESTING DIFFERENT ENVIRONMENTS
+###############################################
+
+### Test localhost
+GET http://localhost:3000/api/tasks
+
+### Test Render production
+GET https://task-manager-oauth-week07.onrender.com/api/tasks
+
+###############################################
+### NOTES
+###############################################
+
+# 1. OAuth Login Flow:
+#    - Visit http://localhost:3000/auth/google in your browser
+#    - Login with your Google account
+#    - You'll be redirected to /dashboard
+#    - Your browser will now have a session cookie
+
+# 2. Testing with REST Client:
+#    - After logging in via browser, copy the session cookie
+#    - Add it to requests that require authentication
+#    - Or use the same browser session in your REST client
+
+# 3. Session Cookies:
+#    - Cookies are httpOnly and secure in production
+#    - Session expires after 24 hours
+#    - Logout clears the session
+
+# 4. User Isolation:
+#    - Each user only sees their own tasks
+#    - Tasks are automatically associated with the logged-in user
+#    - Cannot access or modify other users' tasks
