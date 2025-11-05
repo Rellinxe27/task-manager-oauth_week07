@@ -49,7 +49,7 @@ passport.use(
 
         done(null, user);
       } catch (error) {
-        console.error('Error in Google Strategy:', error);
+        console.error('Error in Google Strategye:', error);
         done(error, null);
       }
     }
