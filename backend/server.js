@@ -11,24 +11,29 @@ const passport = require('./config/passport');
 
 const app = express();
 
+// Trust proxy (required for Render HTTPS)
+app.set('trust proxy', 1);
+
 // Middleware
 app.use(cors({
-  origin: process.env.CLIENT_URL || 'http://localhost:3000',
-  credentials: true
+    origin: process.env.NODE_ENV === 'production'
+        ? 'https://task-manager-oauth-week07.onrender.com'
+        : 'http://localhost:3000',
+    credentials: true
 }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Session configuration (required for passport)
+// Session configuration
 app.use(session({
     secret: process.env.SESSION_SECRET || 'bb2a4debe08259c3e57587164e7f9ceed1fc35a7be58448781c8203ec53c7cf7',
     resave: false,
     saveUninitialized: false,
     cookie: {
-        secure: process.env.NODE_ENV === 'production', // true in prod, false in dev
+        secure: process.env.NODE_ENV === 'production',
         httpOnly: true,
-        maxAge: 24 * 60 * 60 * 1000,
-        sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax'
+        maxAge: 24 * 60 * 60 * 1000, // 24 hours
+        sameSite: process.env.NODE_ENV === 'production' ? 'lax' : 'lax'
     }
 }));
 
