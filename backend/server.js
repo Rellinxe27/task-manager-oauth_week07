@@ -21,7 +21,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // Session configuration (required for passport)
 app.use(session({
-  secret: process.env.SESSION_SECRET || 'your-secret-key-change-this-in-production',
+  secret: process.env.SESSION_SECRET || 'bb2a4debe08259c3e57587164e7f9ceed1fc35a7be58448781c8203ec53c7cf7',
   resave: false,
   saveUninitialized: false,
   cookie: {
