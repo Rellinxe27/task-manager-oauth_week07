@@ -2,17 +2,6 @@ const express = require('express');
 const router = express.Router();
 const passport = require('passport');
 
-/**
- * @swagger
- * /auth/google:
- *   get:
- *     summary: Initiate Google OAuth authentication
- *     tags: [Authentication]
- *     description: Redirects to Google OAuth consent screen
- *     responses:
- *       302:
- *         description: Redirect to Google OAuth
- */
 router.get(
   '/google',
   passport.authenticate('google', {
@@ -20,17 +9,6 @@ router.get(
   })
 );
 
-/**
- * @swagger
- * /auth/google/callback:
- *   get:
- *     summary: Google OAuth callback route
- *     tags: [Authentication]
- *     description: Handles the callback from Google OAuth
- *     responses:
- *       302:
- *         description: Redirect to dashboard on success, login on failure
- */
 router.get(
   '/google/callback',
   passport.authenticate('google', {
