@@ -37,7 +37,7 @@ app.use(cors({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Session configuration - Updated for better Render compatibility
+// Session configuration
 app.use(session({
     secret: process.env.SESSION_SECRET || 'bb2a4debe08259c3e57587164e7f9ceed1fc35a7be58448781c8203ec53c7cf7',
     resave: false,
@@ -46,8 +46,7 @@ app.use(session({
         secure: process.env.NODE_ENV === 'production',
         httpOnly: true,
         maxAge: 24 * 60 * 60 * 1000, // 24 hours
-        sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
-        domain: process.env.NODE_ENV === 'production' ? '.onrender.com' : undefined
+        sameSite: 'lax',
     }
 }));
 
