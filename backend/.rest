@@ -51,7 +51,7 @@ Content-Type: {{contentType}}
 GET {{baseUrl}}/api/tasks
 Content-Type: {{contentType}}
 
-### Get task by ID (replace with valid ID from your account)
+### Get task by ID (replace with valid ID from the account)
 GET {{baseUrl}}/api/tasks/673a16a0ac43a55c29b4a7a8
 Content-Type: {{contentType}}
 
@@ -60,7 +60,6 @@ GET {{baseUrl}}/api/tasks/invalid-id
 Content-Type: {{contentType}}
 
 ### Test GET without authentication (should return 401)
-# Comment out your session cookie and try this
 
 ###############################################
 ### POST REQUESTS (Require Authentication)
@@ -206,15 +205,15 @@ GET https://task-manager-oauth-week07.onrender.com/api/tasks
 ###############################################
 
 # 1. OAuth Login Flow:
-#    - Visit http://localhost:3000/auth/google in your browser
-#    - Login with your Google account
+#    - Visit http://localhost:3000/auth/google in a browser
+#    - Login with a Google account
 #    - You'll be redirected to /dashboard
-#    - Your browser will now have a session cookie
+#    - the browser will now have a session cookie
 
 # 2. Testing with REST Client:
 #    - After logging in via browser, copy the session cookie
 #    - Add it to requests that require authentication
-#    - Or use the same browser session in your REST client
+#    - Or use the same browser session in a REST client
 
 # 3. Session Cookies:
 #    - Cookies are httpOnly and secure in production
